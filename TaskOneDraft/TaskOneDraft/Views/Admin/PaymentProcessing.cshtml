@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TaskOneDraft.Models.Claim>
+
+@{
+    ViewData["Title"] = "Payment Processing";
+}
+
+<h2>Payment Processing</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Lecturer Name</th>
+            <th>Claim Amount</th>
+            <th>Approval Date</th>
+            <th>Payment Amount</th>
+            <th>Payment Date</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model.Where(c => c.ApprovalStatus == "Approved"))
+        {
+            <tr>
+                <td>@claim.Lecturer.FullName</td>
+                <td>@claim.ClaimAmount</td>
+                <td>
+                    <input type="text" value="@claim.ClaimAmount" class="form-control" />
+                </td>
+                <td>
+                    <input type="date" class="form-control" value="@DateTime.Now.ToShortDateString()" />
+                </td>
+                <td>
+                    <button class="btn btn-primary">Process Payment</button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

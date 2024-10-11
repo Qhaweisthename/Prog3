@@ -1,0 +1,103 @@
+﻿@model IEnumerable<TaskOneDraft.Models.Claims>
+@{
+    ViewData["Title"] = "Claims List";
+}
+
+<h2>Claims List</h2>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Id</th>
+            <th>Lecturer ID</th>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Period Start</th>
+            <th>Period End</th>
+            <th>Hours Worked</th>
+            <th>Rate per Hour</th>
+            <th>Total Hours</th>
+            <th>Description</th>
+            <th>File</th> <!-- Optional column for file links -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <td>@claim.Id</td>
+                <td>@claim.LecturerID</td>
+                <td>@claim.FirstName</td>
+                <td>@claim.LastName</td>
+                <td>@claim.ClaimsPeriodStart.ToShortDateString()</td>
+                <td>@claim.ClaimsPeriodEnd.ToShortDateString()</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.RatePerHour</td>
+                
+                <td>@claim.DescriptionOfWork</td>
+                <td>
+                    @if (claim.SupportingDocuments != null)
+                    {
+                        <a href="@Url.Action("DownloadFile", new { id = claim.Id })">Download</a>
+                    }
+                    else
+                    {
+                        //alt code
+                    }
+                </td>
+
+                <!--approve or reject buttons-->
+                <td>
+                    <a href="@Url.Action("Approve", new {id=claim.Id})" class="btn btn-success">Approve</a>
+                    <a href="@Url.Action("Reject", new {id=claim.Id})" class="btn btn-danger">Reject</a>
+                </td>
+
+
+
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section Scripts {
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" />
+
+    <!--Design the toastrs-->
+    <style>
+        .toast-custom{
+            font:20px;
+            width: 400px;
+        }
+    </style>
+
+    <script>
+        $(document).ready(function () {
+            var message = '@TempData["Message"]';
+            var messageType = '@TempData["MessageType"]';
+
+            console.log("Message: " + message);
+            console.log("Message Type: " + messageType);
+
+            if (message && messageType) {
+                if (messageType === 'success') {
+                    toastr.success(message, 'Success', {
+                        "positionClass": "toast-top-right",
+                        "timeOut": 5000,
+                        "closeButton": true,
+                        "progressBar": true
+                    });
+                } else if (messageType === 'error') {
+                    toastr.error(message, 'Error', {
+                        "positionClass": "toast-top-right",
+                        "timeOut": 5000,
+                        "closeButton": true,
+                        "progressBar": true
+                    });
+                }
+            }
+        });
+    </script>
+
+}

@@ -1,0 +1,61 @@
+﻿@model IEnumerable<TaskOneDraft.Models.Contract>
+
+@{
+    ViewData["Title"] = "Lecturer Dashboard";
+}
+
+<h2>Lecturer Dashboard</h2>
+
+<div class="contracts">
+    <h3>Your Contracts</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Contract Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Hourly Rate</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var contract in Model)
+            {
+                <tr>
+                    <td>@contract.ContractName</td>
+                    <td>@contract.StartDate.ToShortDateString()</td>
+                    <td>@contract.EndDate.ToShortDateString()</td>
+                    <td>@contract.RatePerHour</td>
+                    <td>
+                        <a href="/Lecturer/SubmitClaim/@contract.ContractID" class="btn btn-primary">Submit Claim</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+<div class="claims">
+    <h3>Your Claims</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Claim Date</th>
+                <th>Hours Worked</th>
+                <th>Claim Amount</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in ViewBag.Claims)
+            {
+                <tr>
+                    <td>@claim.SubmissionDate.ToShortDateString()</td>
+                    <td>@claim.HoursWorked</td>
+                    <td>@claim.ClaimAmount</td>
+                    <td>@claim.ApprovalStatus</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

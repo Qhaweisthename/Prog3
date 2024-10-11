@@ -1,0 +1,38 @@
+﻿@model IEnumerable<TaskOneDraft.Models.Claim>
+
+@{
+    ViewData["Title"] = "Admin Dashboard";
+}
+
+<h2>Admin Dashboard</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Lecturer Name</th>
+            <th>Contract</th>
+            <th>Claim Amount</th>
+            <th>Hours Worked</th>
+            <th>Submission Date</th>
+            <th>Status</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model)
+        {
+            <tr>
+                <td>@claim.Lecturer.FullName</td>
+                <td>@claim.Contract.ContractName</td>
+                <td>@claim.ClaimAmount</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.SubmissionDate.ToShortDateString()</td>
+                <td>@claim.ApprovalStatus</td>
+                <td>
+                    <a href="/Admin/ApproveClaim/@claim.ClaimID" class="btn btn-success">Approve</a>
+                    <a href="/Admin/RejectClaim/@claim.ClaimID" class="btn btn-danger">Reject</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
